@@ -38,6 +38,6 @@ namespace CarAuctionSystem.Domain.ValueObjects
         public static bool operator >=(Money left, Money right) => left > right || left == right;
         public static bool operator <=(Money left, Money right) => left < right || left == right;
 
-        public override string ToString() => $"{Amount:C} {Currency}";
+        public override string ToString() => $"{Amount:0,0.00} {Currency}";
     }
 }

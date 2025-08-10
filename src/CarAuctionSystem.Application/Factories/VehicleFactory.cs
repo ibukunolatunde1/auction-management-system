@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using CarAuctionSystem.Domain.Entities;
 using CarAuctionSystem.Domain.ValueObjects;
 
@@ -88,11 +89,16 @@ namespace CarAuctionSystem.Application.Factories
 
             try
             {
-                return (T)Convert.ChangeType(value, typeof(T));
+                if (typeof(T) == typeof(int) && value is long longValue)
+                {
+                    return (T)(object)(int)longValue;
+                }
+                
+                return (T)Convert.ChangeType(value.ToString(), typeof(T), CultureInfo.InvariantCulture);
             }
             catch (Exception ex)
             {
-                throw new ArgumentException($"Parameter '{key}' cannot be converted to {typeof(T).Name}", nameof(parameters), ex);
+                throw new ArgumentException($"Parameter '{key}' cannot be converted to {typeof(T).Name}. Current value type: {value?.GetType().Name}", nameof(parameters), ex);
             }
         }
 
