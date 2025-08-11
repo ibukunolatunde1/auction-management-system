@@ -1,4 +1,5 @@
 using CarAuctionSystem.Infrastructure.Extensions;
+using CarAuctionSystem.Api.Extensions;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,5 +24,11 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+// Seed data in development environment
+if (app.Environment.IsDevelopment())
+{
+    await DataSeeder.SeedData(app.Services, CancellationToken.None);
+}
 
 app.Run();
